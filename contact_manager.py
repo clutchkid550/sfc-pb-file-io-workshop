@@ -22,7 +22,15 @@ class ContactManager:
         Bonus: What should happen if the file isn't there?
                 What should happen if the file has invalid JSON in it?
         """
-        return []
+        try:
+            with io.open(self.file, 'r') as file:
+                self.contacts = json.load(file)
+        except (FileNotFoundError):
+            self.contacts = []
+        except (json.JSONDecodeError):
+            self.contacts = []
+
+        return self.contacts
 
     def add_contact(self, contact):
         """Adds a contact to the list, and saves the file"""

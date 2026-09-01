@@ -7,6 +7,9 @@ def main():
     # so they are loaded at the beginning of our program
     contact_manager.load_contacts()
 
+
+
+
     while True:
         menu_choice = display_menu()
 
