@@ -1,9 +1,10 @@
 import json
+import io
 
 """
 Note: This is designed to hold a list of contacts as a list of dictionaries.
 An alternative approach is to build a "Contact" class to represent a contact.
-If you would like to do that as a Bonus exercise, that would be good way
+If you would like to do that as a Bonus exercise, that would be 5good way
 to practice using OOP and composition!
 """
 
@@ -34,7 +35,9 @@ class ContactManager:
 
     def add_contact(self, contact):
         """Adds a contact to the list, and saves the file"""
-        pass
+        self.contacts.append(contact)
+        with io.open(self.file, 'w') as file:
+            json.dump(self.contacts, file)
 
     def update_contact(self, contact_to_update):
         """
@@ -42,7 +45,15 @@ class ContactManager:
 
         Bonus: What happens when the id doesn't exist?
         """
-        pass
+        for index, contact in enumerate(self.contacts):
+            if contact["id"] == contact_to_update["id"]:
+                self.contacts[index] = contact_to_update
+
+                with io.open(self.file, 'w') as file:
+                    json.dump(self.contacts, file)
+                return
+        print(f'Contact with ID {contact_to_update} not found.')
+        return
 
     def delete_contact(self, id_to_delete):
         """
@@ -50,4 +61,11 @@ class ContactManager:
 
         Bonus: What happens when the id doesn't exist?
         """
-        pass
+        for index, contact in enumerate(self.contacts):
+            if contact['id'] == id_to_delete:
+                del self.contacts[index]
+                with io.open(self.file, 'w') as file:
+                    json.dump(self.contacts, file)
+                return
+        else:
+            print(f'Contact with ID {id_to_delete} not found.')
